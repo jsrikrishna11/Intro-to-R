@@ -18,3 +18,5 @@ colnames(supplier_purchases)= c("SupplierName", "AveragePurchases", "TotalAmount
 #writing supplier_purchases matrix into a csv file
 
 write.csv(as.data.frame(supplier_purchases),file = "Extraction.csv")
+
+
