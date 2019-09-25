@@ -44,6 +44,27 @@ df = sqldf("select * from fruits where ingridient='carrot'")
 sqldf("select ingridient, crunchiness from fruits ")
 
 #create dataframe containing only sweetness and foodtype for all ingredients
-sqldf("select ingridient, sweetness, foodtype from fruits ")
+value = sqldf("select ingridient, sweetness, foodtype from fruits ")
 
-#
+tomatoDF = data.frame("...1"= 11,"Ingridient"= "tomato","Sweetness"=6,"Crunchiness"=4,"Foodtype"= NA)
+new = rbind(fruits,tomatoDF)
+
+#distance between tomato to apple and green bean
+distance <- function(x,y){
+  return(sqrt((x[1]-y[1])^2+(x[2]-y[2])^2))
+}
+
+
+#get sweet and crunch of all items
+distanceFrom = "tomato"
+index= match(distanceFrom,fruits$Ingridient)
+sweetnessOf = fruits$Sweetness[index]
+crunchinessOf = fruits$Crunchiness[index]
+
+args = c(sweetnessOf,crunchinessOf)
+temp = fruits[which(fruits$Ingridient!="tomato"),c("Ingridient","Sweetness","Crunchiness")]
+addColumn = list()
+for(i in temp$Ingridient){
+  clusterPoint = temp[which(temp$Ingridient==i),c("Sweetness","Crunchiness")]
+  addColumn = append(addColumn,distance(args, as.vector(clusterPoint)))
+}
