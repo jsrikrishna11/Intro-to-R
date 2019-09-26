@@ -54,17 +54,28 @@ distance <- function(x,y){
   return(sqrt((x[1]-y[1])^2+(x[2]-y[2])^2))
 }
 
-
+fruits = new
 #get sweet and crunch of all items
 distanceFrom = "tomato"
 index= match(distanceFrom,fruits$Ingridient)
 sweetnessOf = fruits$Sweetness[index]
 crunchinessOf = fruits$Crunchiness[index]
-
-args = c(sweetnessOf,crunchinessOf)
+arguments = c(sweetnessOf,crunchinessOf)
 temp = fruits[which(fruits$Ingridient!="tomato"),c("Ingridient","Sweetness","Crunchiness")]
-addColumn = list()
+addColumn = vector()
+
+#calculating distance of "tomato" from each point in the dataset
 for(i in temp$Ingridient){
   clusterPoint = temp[which(temp$Ingridient==i),c("Sweetness","Crunchiness")]
-  addColumn = append(addColumn,distance(args, as.vector(clusterPoint)))
+  clusterPoint <- c(clusterPoint$Sweetness,clusterPoint$Crunchiness)
+  addColumn = append(addColumn, distance(arguments, clusterPoint))
+  print(i)
+  print(clusterPoint)
 }
+
+tempWithDist = cbind(temp, "Distances" = addColumn)
+tempWithDist[order(tempWithDist$Distances),]
+tempWithDist = data.frame("Ingredient"= tempWithDist$Ingridient, "Distances"=tempWithDist$Distances) 
+
+#now we have a dataframe with each ingredient and its distance from tomato
+
