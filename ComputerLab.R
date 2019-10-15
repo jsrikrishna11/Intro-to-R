@@ -10,9 +10,9 @@ rangeofSweetness = range(sweetness)
 
 foodType = fruits$Foodtype 
 
-elements = c(1,4,8)
 
-icmatrix = cbind(ingredient,crunchiness)
+
+icmatrix = as.matrix(cbind(ingredient,crunchiness))
 
 #find crunchiness of grape
 index = icmatrix[,"ingredient"]=="grape"
@@ -75,7 +75,14 @@ for(i in temp$Ingridient){
 
 tempWithDist = cbind(temp, "Distances" = addColumn)
 tempWithDist[order(tempWithDist$Distances),]
-tempWithDist = data.frame("Ingredient"= tempWithDist$Ingridient, "Distances"=tempWithDist$Distances) 
 
 #now we have a dataframe with each ingredient and its distance from tomato
+tempWithDist = data.frame("FoodType"= fruits$Foodtype[1:10], "Distances"=tempWithDist$Distances) 
 
+#now find the foodtype of "tomato"
+
+tempWithDist = tempWithDist[order(tempWithDist$Distances),]
+final = tempWithDist
+kDist = final[1,]
+
+vote = table(kDist$FoodType)
